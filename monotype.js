@@ -12,8 +12,14 @@ var monotype = monotype
 			if(s.rangeCount){ 
 				R = s.getRangeAt(n);
 			} else {
-				R = document.createRange();
-				R.setStart(r.root[0], 0);
+				if(document.createRange){
+					R = document.createRange();
+					R.setStart(r.root[0], 0);
+				} else 
+				if (document.selection){ // <IE9
+                    R = document.selection.createRange();
+                    R = R.getBookmark();
+                }
 			}
 			s.end = (s.extentNode || s.focusNode || R.startContainer);
 			if(s.anchorNode === s.end){
@@ -28,7 +34,7 @@ var monotype = monotype
 		}
 		return R;
 	}, t;
-	console.log('_______________________');
+	//console.log('_______________________');
 	r.R = range(0);
 	r.C = {};
 	r.C.R = $.extend({}, r.R);
@@ -95,7 +101,7 @@ var monotype = monotype
 		(!t.offset && !r.C.e.length) && (c += 0.1); // Same as above.
 		return c;
 	})(r.R.endContainer, r.R.endOffset);
-	console.log(r.s, r.R.startOffset, r.C.s, 'M',r.d,'E', r.C.e, r.R.endOffset, r.e);
+	//console.log(r.s, r.R.startOffset, r.C.s, 'M',r.d,'E', r.C.e, r.R.endOffset, r.e);
 	t = r.root.text();
 	r.L = t.length;
 	r.T = {
@@ -123,14 +129,14 @@ var monotype = monotype
 		return o;
 	}
 	r.range = function(){
-		console.log('----');
+		//console.log('----');
 		r.C = r.C || {};
 		var s = r.reach(r.s)
 		, st = s.$.text()
 		, e = r.reach(r.e)
 		, et = e.$.text()
 		, R = range()
-		, p = function(g, c){
+		, p = function(g, c){ // TODO: BUG! Backtracking in non-Chrome and non-IE9+ browsers. IE9 doesn't like end selections.
 			if(!c || !c.length){
 				return g;
 			}
@@ -170,8 +176,8 @@ var monotype = monotype
 		}
 		s = p(s, r.C.s);
 		e = p(e, r.C.e);
-		console.log("START", parseInt(s.i), 'in """',(s.$[0]),'""" with clue of', r.C.s, 'from original', r.s);
-		console.log("END", parseInt(e.i), 'in """',(e.$[0]),'""" with clue of', r.C.e, 'from original', r.e);
+		//console.log("START", parseInt(s.i), 'in """',(s.$[0]),'""" with clue of', r.C.s, 'from original', r.s);
+		//console.log("END", parseInt(e.i), 'in """',(e.$[0]),'""" with clue of', r.C.e, 'from original', r.e);
 		R.setStart(s.$[0], parseInt(s.i));
 		R.setEnd(e.$[0], parseInt(e.i));
 		return R;
