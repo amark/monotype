@@ -34,12 +34,12 @@ Monotype is not designed or intended to be a full fledged editor, it instead lay
 #API
 When you want to save the current range selection or caret, which is typically right before any formatting or filtering, do:
 
-```r = monotype(editor)```
+`r = monotype(editor)`
 
 Where editor is the jQuery element of your contenteditable container, r is whatever variable you hence forth want to call your saved selection, and monotype is the global given to you when you included the script tag.
 When you fancy you'd like to restore the user's selection, just:
 
-```r.restore()```
+`r.restore()`
 
 Simple enough? Excellently so. Check out the code behind the demos if you need any further illustrations.
 
