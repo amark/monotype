@@ -31,6 +31,8 @@ Monotype is not designed or intended to be a full fledged editor, it instead lay
 #Demos
 [Examples](http://db.marknadal.com/monotype/test/mocha.html) ([45s video](http://www.screenr.com/Al7N))
 
+[Syntax code editor](http://db.marknadal.com/monotype/test/editor.html)
+
 #API
 When you want to save the current range selection or caret, which is typically right before any formatting or filtering, do:
 
