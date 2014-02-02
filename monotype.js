@@ -2,7 +2,7 @@ var monotype = monotype
 || function(r,opt){
 	r = r || {};
 	opt = opt || {};
-	r = r.jquery? {root: r} : r;
+	r = r.jquery || r.nodeType? {root: $(r)} : r;
 	r.root = $(r.root || document.body);
 	var range = function(n){
 		var R, s, t, n = n || 0;

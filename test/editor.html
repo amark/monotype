@@ -1,0 +1,104 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='http://fonts.googleapis.com/css?family=Finger+Paint' rel='stylesheet' type='text/css'>
+		<link id="style" rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/sunburst.min.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+		<script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+		<script src="../monotype.js"></script>
+		<style>
+			html, body, pre, code {
+				font-family: 'Finger Paint', cursive;
+				font-size: 18pt;
+				margin: 0;
+				padding: 0;
+			}
+			#skin {
+				text-align: center;
+				background: #111;
+				color: #EEE;
+			}
+			input {
+				border-radius: .5em;
+			}
+		</style>
+	  </head>
+	</head>
+	<body>
+		<div id="skin">
+			Font: <input value="paste Google Font name" id='font'>
+			Theme: <select id='theme'>
+				<option value="arta">arta</option>
+				<option value="ascetic">ascetic</option>
+				<option value="atelier-dune.dark">atelier-dune.dark</option>
+				<option value="atelier-dune.light">atelier-dune.light</option>
+				<option value="atelier-forest.dark">atelier-forest.dark</option>
+				<option value="atelier-forest.light">atelier-forest.light</option>
+				<option value="atelier-heath.dark">atelier-heath.dark</option>
+				<option value="atelier-heath.light">atelier-heath.light</option>
+				<option value="atelier-lakeside.dark">atelier-lakeside.dark</option>
+				<option value="atelier-lakeside.light">atelier-lakeside.light</option>
+				<option value="atelier-seaside.dark">atelier-seaside.dark</option>
+				<option value="atelier-seaside.light">atelier-seaside.light</option>
+				<option value="brown_paper">brown_paper</option>
+				<option value="dark">dark</option>
+				<option value="default">default</option>
+				<option value="docco">docco</option>
+				<option value="far">far</option>
+				<option value="foundation">foundation</option>
+				<option value="github">github</option>
+				<option value="googlecode">googlecode</option>
+				<option value="idea">idea</option>
+				<option value="ir_black">ir_black</option>
+				<option value="magula">magula</option>
+				<option value="mono-blue">mono-blue</option>
+				<option value="monokai">monokai</option>
+				<option value="monokai_sublime">monokai_sublime</option>
+				<option value="obsidian">obsidian</option>
+				<option value="paraiso.dark">paraiso.dark</option>
+				<option value="paraiso.light">paraiso.light</option>
+				<option value="pojoaque">pojoaque</option>
+				<option value="railscasts">railscasts</option>
+				<option value="rainbow">rainbow</option>
+				<option value="school_book">school_book</option>
+				<option value="solarized_dark">solarized_dark</option>
+				<option value="solarized_light">solarized_light</option>
+				<option value="sunburst" selected="selected">sunburst</option>
+				<option value="tomorrow-night-blue">tomorrow-night-blue</option>
+				<option value="tomorrow-night-bright">tomorrow-night-bright</option>
+				<option value="tomorrow-night-eighties">tomorrow-night-eighties</option>
+				<option value="tomorrow-night">tomorrow-night</option>
+				<option value="tomorrow">tomorrow</option>
+				<option value="vs">vs</option>
+				<option value="xcode">xcode</option>
+				<option value="zenburn">zenburn</option>
+			</select>
+			Size: <input value="18" id='size'>
+		</div>
+		<pre><code contenteditable='true'>// Syntax code editor in 20 LOC with fancy fonts!
+$(function(){
+	var prevent = {
+		'13': '\n'
+		,'9': '\t'
+	}, write = $('[contenteditable=true]').keyup(function(e){
+		var r = monotype(write);
+		write.html(hljs.highlight('javascript', write.text()).value);
+		r.restore();
+	}).keydown(function(e){
+		if(e.keyCode in prevent){
+			e.preventDefault();
+			var r = monotype(write);
+			write.html(write.text().slice(0, r.s)
+				+ prevent[e.keyCode] +
+			write.text().slice(r.e));
+			r.e = ++r.s;
+			r.restore();
+		}
+	});
+});
+/* Courtesy the excellent Monotype, Highlight.js, and jQuery libraries! */</code></pre>
+		<script src="./editor.js"></script>
+		<script src="./skin.js"></script>
+	</body>
+</html>
