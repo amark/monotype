@@ -1,18 +1,18 @@
 ;var monotype = monotype || (function(monotype){
 	monotype.range = function(n){
-		var R, s, t, n = n || 0;
-		if(!arguments.length) return document.createRange();
-		if(!(window.Range && R instanceof Range)){
-			s = window.getSelection? window.getSelection() : {};
+		var R, s, t, n = n || 0, win = monotype.win || window, doc = win.document;
+		if(!arguments.length) return doc.createRange();
+		if(!(win.Range && R instanceof Range)){
+			s = win.getSelection? win.getSelection() : {};
 			if(s.rangeCount){ 
 				R = s.getRangeAt(n);
 			} else {
-				if(document.createRange){
-					R = document.createRange();
-					R.setStart(document.body, 0);
+				if(doc.createRange){
+					R = doc.createRange();
+					R.setStart(doc.body, 0);
 				} else 
-				if (document.selection){ // <IE9
-					R = document.selection.createRange();
+				if (doc.selection){ // <IE9
+					R = doc.selection.createRange();
 					R = R.getBookmark();
 				}
 			}
@@ -30,12 +30,13 @@
 		return R;
 	}
 	monotype.restore = function(R){
+		var win = monotype.win, doc = win.document;
 		if(R.R && R.restore){ 
 			R.restore();
 			return;
 		}
-		if(window.getSelection){
-			var s = window.getSelection();
+		if(win.getSelection){
+			var s = win.getSelection();
 			s.removeAllRanges();
 			if(s.extend && R.direction < 0){
 				R.esC = R.startContainer;
@@ -45,8 +46,8 @@
 			s.addRange(R);
 			R.esC && s.extend(R.esC, R.esO);
 		} else {
-			if(document.body.createTextRange) { // <IE9
-				var ier = document.body.createTextRange();
+			if(doc.body.createTextRange) { // <IE9
+				var ier = doc.body.createTextRange();
 				ier.moveToBookmark(R);
 				ier.select();
 			}
@@ -123,8 +124,9 @@
 })(function(r,opt){
 	r = r || {};
 	opt = opt || {};
+	monotype.win = opt.win || window;
 	r = r.jquery || monotype.text(r)? {root: $(r)} : r;
-	r.root = $(r.root || document.body);
+	r.root = $(r.root || monotype.win.document.body);
 	var t, m = monotype;
 	//console.log('_______________________');
 	r.R = m.range(0);
